@@ -1,33 +1,33 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const categories = [
 	{
-		name: 'all',
+		name: 'All',
 		text: '전체보기',
 	},
 	{
-		name: 'business',
+		name: 'Business',
 		text: '비즈니스',
 	},
 	{
-		name: 'enetertainment',
+		name: 'Entertainment',
 		text: '엔터테인먼트',
 	},
 	{
-		name: 'health',
+		name: 'Health',
 		text: '건강',
 	},
 	{
-		name: 'science',
+		name: 'Science',
 		text: '과학',
 	},
 	{
-		name: 'sports',
+		name: 'Sports',
 		text: '스포츠',
 	},
 	{
-		name: 'technology',
+		name: 'Technology',
 		text: '기술',
 	},
 ];
@@ -54,15 +54,32 @@ const Category = styled.div`
 		color: #495057;
 	}
 
+	${(props) =>
+		props.active &&
+		css`
+			font-weight: 600;
+			border-bottom: 2px solid #22b8cf;
+			color: #22b8cf;
+			&:hover {
+				color: #3bc9db;
+			}
+		`}
+
 	& + & {
 		margin-left: 1rem;
 	}
 `;
-const Categories = () => {
+const Categories = ({ category, onSelect }) => {
 	return (
 		<CategoriesBlock>
 			{categories.map((c) => (
-				<Category key={c.name}>{c.name}</Category>
+				<Category
+					key={c.name}
+					active={category === c.name}
+					onClick={() => onSelect(c.name)}
+				>
+					{c.name}
+				</Category>
 			))}
 		</CategoriesBlock>
 	);

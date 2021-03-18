@@ -16,14 +16,18 @@ const NewsListBlock = styled.div`
 	}
 `;
 
-const NewsList = () => {
+const NewsList = ({ category }) => {
 	const [articles, setArticles] = useState(null);
 	const [loading, setLoading] = useState(null);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			setLoading(true);
 			try {
-				const response = await axios.get('http://newsapi.org/v2/top-headlines?country=us&apiKey=d7203d3735dc456d9ab93874c4a334dd');
+				const query = category === 'All' ? '' : `&category=${category}`;
+				const response = await axios.get(
+					`http://newsapi.org/v2/top-headlines?country=us${query}&apiKey=d7203d3735dc456d9ab93874c4a334dd`,
+				);
 				setArticles(response.data.articles);
 			} catch (e) {
 				console.log(e);
@@ -31,10 +35,10 @@ const NewsList = () => {
 			setLoading(false);
 		};
 		fetchData();
-	}, []);
+	}, [category]);
 
 	if (loading) {
-		return <NewsListBlock>대기 중...</NewsListBlock>;
+		return <NewsListBlock>Processing...</NewsListBlock>;
 	}
 
 	if (!articles) {
