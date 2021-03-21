@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import axios from '../../node_modules/axios/index';
 import usePromise from '../lib/usePromise';
@@ -29,8 +29,12 @@ const NewsList = ({ category }) => {
     return <NewsListBlock>Processing...</NewsListBlock>;
   }
 
+  if (!response) {
+    return null;
+  }
+
   if (error) {
-    return <NewsListBlock>에러 발생!</NewsListBlock>;
+    return <NewsListBlock>error!</NewsListBlock>;
   }
 
   const { articles } = response.data;
